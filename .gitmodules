@@ -1,0 +1,3 @@
+[submodule "MarlinFirmware"]
+	path = MarlinFirmware
+	url = git@github.com:MarlinFirmware/Marlin.git
