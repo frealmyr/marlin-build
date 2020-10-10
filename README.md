@@ -17,7 +17,7 @@ Other Marlin configuration examples can be [found here.](https://github.com/Marl
 
 ### MarlinFirmware submodule update
 
-The script asks if you wish to update the latest MarlinFirmware release, you can create a local variable called `UPDATE_SKIP` to skip this prompt.
+The script asks if you wish to update to the latest MarlinFirmware release, you can create a local variable called `UPDATE_SKIP` to skip this prompt.
 
 ```bash
 UPDATE_SKIP=yes
