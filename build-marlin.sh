@@ -50,4 +50,4 @@ docker run --rm -it \
   local/platformio platformio run
 
 echo "If the output above reported SUCCESS, you can now find the firmware in the following folder"
-echo "./MarlinFirmware/.pio/build/$(cat $(PWD)/CustomConfiguration/board)"
+echo "./MarlinFirmware/.pio/build/$(cat $(pwd)/CustomConfiguration/board)"
