@@ -1,3 +1,4 @@
 .idea
-MarlinFirmware
-build
+.vscode
+
+MarlinFirmware/
