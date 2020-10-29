@@ -13,7 +13,7 @@ The `./build-marlin.sh` script does the following
 
 ### Custom Configuration
 
-The included configuration is the default configuration for a `Ender 3` with a `SKR Mini E3 V2.0` aftermarket motherboard, [found here.](https://github.com/MarlinFirmware/Configurations/tree/import-2.0.x/config/examples/Creality/Ender-3/BigTreeTech%20SKR%20Mini%20E3%202.0)
+The included configuration is the default configuration for a `Ender 3 V2` with the stock motherboard, [found here.](https://github.com/MarlinFirmware/Configurations/tree/import-2.0.x/config/examples/Creality/Ender-3%20V2)
 
 You can fork this repository and adapt the configuration to suit your needs. The gitignore entry for `CustomConfiguration/` will ignore any changes you make withing this folder, allowing you to update the fork or contribute upstream without modifying your custom configuration.
 
