@@ -1,6 +1,6 @@
 ## Build Marlin firmware using docker
 
-This is a simple repository for using docker to build Marlin firmware for 3d-printers.
+This is a solution for using docker to build Marlin firmware for 3d-printers. Edit the configuration files in `CustomConfiguration` and run `./build-marlin.sh` to compile the firmware.
 
 The `./build-marlin.sh` script does the following
 
@@ -13,15 +13,15 @@ The `./build-marlin.sh` script does the following
 
 ### Custom Configuration
 
-The included configuration is for my `Ender-3 Pro` running with a `SKR Mini E3 V1.2`.
+The included configuration is the default configuration for a `Ender 3` with a `SKR Mini E3 V2.0` aftermarket motherboard, [found here.](https://github.com/MarlinFirmware/Configurations/tree/import-2.0.x/config/examples/Creality/Ender-3/BigTreeTech%20SKR%20Mini%20E3%202.0)
 
-You can fork this repository to adapt the configuration for your printer, you can always update the fork if there are any updates on this repository.
+You can fork this repository and adapt the configuration to suit your needs. The gitignore entry for `CustomConfiguration/` will ignore any changes you make withing this folder, allowing you to update the fork or contribute upstream without modifying your custom configuration.
 
-Other Marlin configuration examples can be [found here.](https://github.com/MarlinFirmware/Configurations/tree/import-2.0.x/config/examples)
+>Other Marlin configuration examples can be [found here.](https://github.com/MarlinFirmware/Configurations/tree/import-2.0.x/config/examples)
 
 
 ### Advanced Configuration
 
-In some cases you might have the need to change variables not covered by `.h` configuration files, and require to make changes inside the `MarlinFirmware/Marlin/src` folder.
+In some cases you might want to change the variables not covered by `.h` configuration files alone, and you have the need to make changes inside the `MarlinFirmware/Marlin/src` folder.
 
 The script currently have no logic for replacing files inside sub-folders, so i recommend you to update the `MarlinFirmware` submodule once, and then set the `UPDATE_SKIP=yes` local variable, so that you can edit the files inside `MarlinFirmware/Marlin/src` folder without the changes being discarded due to git hard reset.
