@@ -1,4 +1,12 @@
+# OS
+applet/
+*.DS_Store
+
+# IDEs
 .idea
 .vscode
+
+# Marlin
 build/
+CustomConfiguration/
 MarlinFirmware/
