@@ -80,10 +80,15 @@ docker run --rm -it \
 success=$?
 
 if [[ ${success} -eq 0 ]]; then
-    echo "Build succeeded! Moving latest firmware to build folder ["$(pwd)/build/$(cat $(pwd)/CustomConfiguration/board)/"]"
-    mkdir -p "$(pwd)/build/$(cat $(pwd)/CustomConfiguration/board)"
-    cp "./MarlinFirmware/.pio/build/$(cat $(pwd)/CustomConfiguration/board)/firmware.bin" "$(pwd)/build/$(cat $(pwd)/CustomConfiguration/board)/$(date '+%Y-%m-%d')-firmware.bin"
+    build_dir=./MarlinFirmware/.pio/build/$(cat $(pwd)/CustomConfiguration/board)/
+    output_dir=$(pwd)/build/$(cat $(pwd)/CustomConfiguration/board)/$(date '+%Y-%m-%d')/
+
+    echo "Copying compiled firmware to output folder.."
+    mkdir -p $output_dir
+    find $build_dir -name '*.bin' -exec cp -prv '{}' $output_dir ';'
+
+    printf "\n\e[1;32mBuild succeeded! \n\n\e[1;36mThe compiled firmware is available from: \n\e[0m$output_dir\n"
 else
-    echo "Build failed! please check output for what went wrong."
+    printf "\n\e[1;31mBuild failed! \e[0mCheck the output above for errors\n"
     exit 1
 fi
