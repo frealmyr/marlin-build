@@ -1,7 +1,31 @@
 #!/bin/bash
 
+function help()
+{
+	printf "Usage:\n$0\n"
+	printf "\n"
+	printf "OPTIONS:\n"
+	printf "  -h  help     : Show this message\n"
+	printf "  -s  skip     : Skip update of MarlinFirmware to latest release\n"
+	printf "  -f  force    : Force update of MarlinFirmware to latest release\n"
+	printf "\n"
+}
+
 # set to true to ignore updating marlin to latest version
 UPDATE_SKIP=
+# set to true to force an update of marlin to latest version
+UPDATE_FORCE=
+
+options=':hsf'
+while getopts $options option
+do
+    case ${option} in
+        s  ) UPDATE_SKIP=true;;
+        f  ) UPDATE_FORCE=true;;
+        h  ) help; exit;;
+        \? ) printf "Unknown option: -$OPTARG\n\n"; exit 1;;
+    esac
+done
 
 # Check if the docker image is older than a day, skip building if you already built the image today
 today=$(date '+%Y-%m-%d')
@@ -13,16 +37,20 @@ fi
 
 # Ask if wish to update MarlinFirmware to the latest release
 if [[ -z ${UPDATE_SKIP} ]]; then
-  read -r -p "Do you want to update MarlinFirmware to latest release? [y/N] " response
-  case "$response" in
-      [yY][eE][sS]|[yY])
-          git submodule foreach --recursive git clean -xfd
-          git submodule foreach --recursive git reset --hard
-          git submodule foreach 'git fetch origin; git checkout $(git describe --tags `git rev-list --tags --max-count=1`);'
-          ;;
-      *)
-          ;;
-  esac
+  if [[ -z ${UPDATE_FORCE} ]]; then
+    read -r -p "Do you want to update MarlinFirmware to latest release? [y/N] " response
+  else
+    response=y
+  fi
+      case "$response" in
+          [yY][eE][sS]|[yY])
+              git submodule foreach --recursive git clean -xfd
+              git submodule foreach --recursive git reset --hard
+              git submodule foreach 'git fetch origin; git checkout $(git describe --tags `git rev-list --tags --max-count=1`);'
+              ;;
+          *)
+              ;;
+      esac
 fi
 
 # Store .h configuration files in CustomConfiguration folder to a variable
@@ -49,5 +77,13 @@ docker run --rm -it \
   -w /home/platformio/MarlinFirmware \
   local/platformio platformio run
 
-echo "If the output above reported SUCCESS, you can now find the firmware in the following folder"
-echo "./MarlinFirmware/.pio/build/$(cat $(pwd)/CustomConfiguration/board)"
+success=$?
+
+if [[ ${success} -eq 0 ]]; then
+    echo "Build succeeded! Moving latest firmware to build folder ["$(pwd)/build/$(cat $(pwd)/CustomConfiguration/board)/"]"
+    mkdir -p "$(pwd)/build/$(cat $(pwd)/CustomConfiguration/board)"
+    cp "./MarlinFirmware/.pio/build/$(cat $(pwd)/CustomConfiguration/board)/firmware.bin" "$(pwd)/build/$(cat $(pwd)/CustomConfiguration/board)/$(date '+%Y-%m-%d')-firmware.bin"
+else
+    echo "Build failed! please check output for what went wrong."
+    exit 1
+fi
