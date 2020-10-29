@@ -8,6 +8,7 @@ function help()
 	printf "  -h  help     : Show this message\n"
 	printf "  -s  skip     : Skip update of MarlinFirmware to latest release\n"
 	printf "  -f  force    : Force update of MarlinFirmware to latest release\n"
+  printf "  -d  docker   : Build docker image locally, instead of pulling image\n"
 	printf "\n"
 }
 
@@ -15,24 +16,25 @@ function help()
 UPDATE_SKIP=
 # set to true to force an update of marlin to latest version
 UPDATE_FORCE=
+# set to true to build a local docker image
+DOCKER_BUILD=
 
-options=':hsf'
+options=':hsfd'
 while getopts $options option
 do
     case ${option} in
         s  ) UPDATE_SKIP=true;;
         f  ) UPDATE_FORCE=true;;
+        d  ) DOCKER_BUILD=true;;
         h  ) help; exit;;
         \? ) printf "Unknown option: -$OPTARG\n\n"; exit 1;;
     esac
 done
 
-# Check if the docker image is older than a day, skip building if you already built the image today
-today=$(date '+%Y-%m-%d')
-image_date=$(docker inspect --format "{{json .Created}}" local/platformio | grep -Eo '[[:digit:]]{4}-[[:digit:]]{2}-[[:digit:]]{2}')
-
-if [[ ${today} != ${image_date} ]]; then
-  docker build . -t local/platformio
+# Build the docker image locally if the flag is set, else use docker hub
+if [[ -n "$DOCKER_BUILD" ]]; then
+  echo "Building platformio docker image locally.."
+  docker build . -t frealmyr/platformio:latest
 fi
 
 # Ask if wish to update MarlinFirmware to the latest release
@@ -75,7 +77,7 @@ mv $(pwd)/MarlinFirmware/platformio.ini_new $(pwd)/MarlinFirmware/platformio.ini
 docker run --rm -it \
   -v $(pwd)/MarlinFirmware:/home/platformio/MarlinFirmware \
   -w /home/platformio/MarlinFirmware \
-  local/platformio platformio run
+  frealmyr/platformio:latest platformio run
 
 success=$?
 
