@@ -56,7 +56,7 @@ if [[ -z ${UPDATE_SKIP} ]]; then
 fi
 
 # Store .h configuration files in CustomConfiguration folder to a variable
-CONFIG_FILES=$(find CustomConfiguration -name '*.h' -exec basename {} .h \;)
+CONFIG_FILES=$(find CustomConfiguration/ -name '*.h' -exec basename {} .h \;)
 
 # Remove configuration files if they exist in Marlin folder
 while IFS= read -r line; do
