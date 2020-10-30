@@ -1,8 +1,11 @@
 name: Publish Docker image
 
 on:
+  push:
+    branches:
+      - master
   schedule:
-    - cron: 0 0 1 * * # First day on every month
+    - cron: 0 0 1 * * # First day, every month
 
 jobs:
   push_to_registry:
@@ -28,7 +31,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: frealmyr/platformio:latest
+          tags: frealmyr/docker-marlin-build:latest
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}

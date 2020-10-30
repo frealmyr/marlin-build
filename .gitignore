@@ -6,7 +6,5 @@ applet/
 .idea
 .vscode
 
-# Marlin
-build/
-CustomConfiguration/
-MarlinFirmware/
+# Repo
+.env
