@@ -25,7 +25,7 @@ docker run --rm -it \
   -e BOARD \
   -v $MARLIN_FIRMWARE:/home/platformio/build \
   -v $MARLIN_CONFIGURATION:/home/platformio/CustomConfiguration \
-  frealmyr:docker-marlin-build:latest
+  frealmyr/docker-marlin-build:latest
 ```
 
 ### Docker environment variables

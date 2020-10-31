@@ -3,7 +3,7 @@ version: "3.5"
 services:
   build:
     container_name: marlin-build
-    image: frealmyr/marlin-docker-build:latest
+    image: frealmyr/docker-marlin-build:latest
     user: 1000:1000
     stdin_open: true
     tty: true
@@ -14,4 +14,4 @@ services:
     volumes:
       - $MARLIN_FIRMWARE:/home/platformio/build
       - $MARLIN_CONFIGURATION:/home/platformio/CustomConfiguration
-      - ./build-marlin.sh:/home/platformio/build-marlin.sh # Use build script in repo instead of image
+      # - ./build-marlin.sh:/home/platformio/build-marlin.sh # Use build script in repo instead of image

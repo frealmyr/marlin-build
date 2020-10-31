@@ -3,8 +3,7 @@
 # Ask if wish to update MarlinFirmware to the latest release
 if [[ -z $UPDATE_SKIP ]]; then
   if [[ -z $UPDATE_FORCE ]]; then
-    echo ""
-    echo "You are currently using MarlinFirmware release:" $(cd Marlin/ && git tag --points-at HEAD)
+    printf "\nYou are currently using MarlinFirmware release:\e[01;33m $(cd Marlin/ && git tag --points-at HEAD)\e[0m\n"
     read -r -p "Do you want to update MarlinFirmware to latest release? [y/N] " response
   else
     response=y
@@ -39,18 +38,38 @@ done <<< $(find /home/platformio/CustomConfiguration/ -name '*.h' -exec basename
 sed -i "s/default_envs = .*/default_envs = $BOARD/g" /home/platformio/Marlin/platformio.ini
 
 # Build Marlin firmware
-printf "\n\e[1;35mCompiling marling firmware..\e[0m\n\n"
+printf "\e[1;35mCompiling Marlin firmware..\e[0m\n\n"
 platformio run -d Marlin/
 
 success=$?
 
 if [[ ${success} -eq 0 ]]; then
-  build_dir=/home/platformio/Marlin/.pio/build/$BOARD/
-  output_dir=/home/platformio/build/$BOARD/
+  OUTPUT_DIR=/home/platformio/build/$BOARD
+  mkdir -p $OUTPUT_DIR
 
-  printf "\n\n\e[1;32mCopying compiled firmware to output folder..\e[0m\n"
-  mkdir -p $output_dir
-  find $build_dir -name '*.bin' -exec cp -prv '{}' $output_dir ';'
+  printf "\nCopying compiled firmware to output folder..\n"
+  cd /home/platformio/Marlin/.pio/build/$BOARD
+  FIRMWARE_NAME=$(find . -name '*.bin' -type f -exec basename {} .bin ';')
+  md5sum $FIRMWARE_NAME.bin > $OUTPUT_DIR/$FIRMWARE_NAME.md5
+  cp $FIRMWARE_NAME.bin $OUTPUT_DIR
+
+  printf "\nValidating firmware checksum.."
+  if md5sum -c $OUTPUT_DIR/$FIRMWARE_NAME.md5;
+  then
+    printf "\e[0mMD5 Checksum Validation: \e[1;32mSucceeded\n"
+    echo ""
+    echo "  (\.   \      ,/)"
+    echo "   \(   |\     )/    Yer done!"
+    echo "   //\  | \   /\\"
+    echo "  (/ /\_#oo#_/\ \)   Happy 3D-Printing!"
+    echo "   \/\  ####  /\/"
+    echo "        '##'"
+    echo ""
+  else
+    printf "\e[0mMD5 Checksum Validation: \e[1;31mFailed\n"
+    printf "\n\e[1;31mBuild failed! \e[0mCheck the output above for errors\n"
+    exit 1
+  fi
 else
   printf "\n\e[1;31mBuild failed! \e[0mCheck the output above for errors\n"
   exit 1
