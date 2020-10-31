@@ -1,24 +1,26 @@
-## Build Marlin firmware using docker
+# Build Marlin firmware using docker
 
-This docker image contains `platformio-core` and a bash script for convenient compiling of Marlin firmware with your own configuration.
-
-The `frealmyr/docker-marlin-build:lastest` image is built automatically every month using Github Actions.
+This docker image contains `platformio-core` and a bash script, for conveniently compiling Marlin firmware with your own configuration.
 
 ## Compiling firmware
 
-This solution requires you to define a `CustomConfiguration` folder that contains your `*.h` configuration files, and a correct `BOARD` environment variable containing the `default_envs` for your 3d-printer control board.
+To use this image, you need to provide a folder containing your `*.h` configuration files. Any files with this extension will be copied to the build folder, replacing the default configuration files that exists.
 
->Configuration examples can be [found here.](https://github.com/MarlinFirmware/Configurations/tree/import-2.0.x/config/examples)
+>Configuration examples for most Marlin based 3d-printers can be [found here.](https://github.com/MarlinFirmware/Configurations/tree/import-2.0.x/config/examples)
+
+You also need to set the `BOARD` environment variable, containing the `default_envs` value for your 3d-printer control board. This value can in most cases be found the vendor page/repo, or in firmware guides by the community.
+
+
 
 ### docker-compose
 
-Create either a `.env` file containing the `MARLIN_FIRMWARE` and `MARLIN_CONFIGURATION` folder locations, or use environment variables in your shell.
+You need to create a `.env` file containing `BOARD`, `MARLIN_FIRMWARE` and `MARLIN_CONFIGURATION` next to the `docker-compose.yml` file, there is a example in the `examples/` folder.
 
 Run `docker-compose run build` to compile the marlin firmware.
 
 ### docker run
 
-Run the following command, changing the directory references
+For the volumes and environment variables, you can choose between creating a `.env` file, setting the variables in your shell or editing the docker run command directly.
 
 ```bash
 docker run --rm -it \
@@ -32,19 +34,21 @@ docker run --rm -it \
 
 You can create a github action that automatically builds and pushes the firmware file when you make a commit to the main branch in your own repository.
 
-There is a example file in `Examples/` that you can copy to your own repository, and you can see a live example of this setup here https://github.com/frealmyr/3d-lab.
+Add the configuration for your 3d-printer in a folder named `Firmware/Configuration`, and copy the `github-action.yml` file provided in `Examples/` to your repository. When you push to master, you can check the yellow dot next to your commit, or navigate to the Actions to view the terminal output for the github action.
 
-### Docker environment variables
+A live example of this setup is available here https://github.com/frealmyr/3d-lab.
+
+## Docker environment variables
 
 | Variable | Description| Reqired |
 | :---: | :-: | :-: |
 | BOARD | Platformio default_envs | yes |
 | UPDATE_SKIP | Skip firmware update prompt | no |
-| UPADTE_FORCE | Update to latest marlin release | no |
+| UPDATE_FORCE | Update to latest Marlin release | no |
 
-### Docker volume mounts
+## Docker volume mounts
 
-| Variable | Description |
+| Location inside container | Description |
 | :---: | :-: |
-| /home/platformio/build | Output folder for built firmware |
-| /home/platformio/CustomConfiguration | Input folder for custom configuration files |
+| /home/platformio/build | Output folder for compiled firmware |
+| /home/platformio/CustomConfiguration | Input folder for custom configuration |
