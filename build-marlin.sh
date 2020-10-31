@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Ask if wish to update MarlinFirmware to the latest release
-if [[ -z $UPDATE_SKIP ]]; then
+if [[ -z $UPDATE_SKIP ]] && [[ -z $USE_BRANCH ]]; then
   if [[ -z $UPDATE_FORCE ]]; then
     printf "\nYou are currently using MarlinFirmware release:\e[01;33m $(cd Marlin/ && git tag --points-at HEAD)\e[0m\n"
     read -r -p "Do you want to update MarlinFirmware to latest release? [y/N] " response
@@ -19,6 +19,14 @@ if [[ -z $UPDATE_SKIP ]]; then
               echo ""
               ;;
       esac
+fi
+
+if [[ $USE_BRANCH ]]; then
+  cd Marlin/
+  git fetch origin
+  git checkout $USE_BRANCH
+  printf "\nYou are now using the latest commit in branch:\e[01;33m $(git branch | sed -n '/\* /s///p')\e[0m\n\n"
+  cd ..
 fi
 
 # Check if custom configuration files exists within the docker container

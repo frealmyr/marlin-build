@@ -41,14 +41,15 @@ A live example of this setup is available here https://github.com/frealmyr/3d-la
 ## Docker environment variables
 
 | Variable | Description| Reqired |
-| :---: | :-: | :-: |
+| :--- | :- | :-: |
 | BOARD | Platformio default_envs | yes |
 | UPDATE_SKIP | Skip firmware update prompt | no |
 | UPDATE_FORCE | Update to latest Marlin release | no |
+| USE_BRANCH | Compile using a branch instead of latest tag | no |
 
 ## Docker volume mounts
 
 | Location inside container | Description |
-| :---: | :-: |
+| :--- | :- |
 | /home/platformio/build | Output folder for compiled firmware |
 | /home/platformio/CustomConfiguration | Input folder for custom configuration |

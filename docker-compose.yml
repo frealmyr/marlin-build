@@ -11,6 +11,7 @@ services:
       - BOARD
       # - UPDATE_SKIP=true # Skip update prompt
       # - UPDATE_FORCE=true # Update MarlinFirmware silently
+      # - USE_BRANCH=bugfix-2.0.x # Use a branch instead of latest tag
     volumes:
       - $MARLIN_FIRMWARE:/home/platformio/build
       - $MARLIN_CONFIGURATION:/home/platformio/CustomConfiguration
