@@ -46,7 +46,7 @@ success=$?
 
 if [[ ${success} -eq 0 ]]; then
   build_dir=/home/platformio/Marlin/.pio/build/$BOARD/
-  output_dir=/home/platformio/build/$BOARD/$(date '+%Y-%m-%d')/
+  output_dir=/home/platformio/build/$BOARD/
 
   printf "\n\n\e[1;32mCopying compiled firmware to output folder..\e[0m\n"
   mkdir -p $output_dir
