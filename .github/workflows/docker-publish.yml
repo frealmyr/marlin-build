@@ -4,8 +4,13 @@ on:
   push:
     branches:
       - master
+    paths-ignore:
+      - 'README.md'
+      - '.gitignore'
+      - 'examples/**'
+      - 'docker-compose.yml'
   schedule:
-    - cron: 0 0 1 * * # First day, every month
+    - cron: 0 0 1 * * # First day of month
 
 jobs:
   push_to_registry:

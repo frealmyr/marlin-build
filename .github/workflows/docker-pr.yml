@@ -2,6 +2,10 @@ name: Build on push to pr
 
 on:
   pull_request:
+    paths-ignore:
+      - 'README.md'
+      - 'examples/**'
+      - 'docker-compose.yml'
 
 jobs:
   build_on_pr:
