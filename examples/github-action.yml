@@ -1,0 +1,35 @@
+# This a Github Action for automatically building Marlin Firmware when you push a commit to master.
+
+name: Build marlin firmware
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'Firmware/Configuration/**.h'
+
+jobs:
+  build_and_push:
+    name: Build and push firmware
+    runs-on: ubuntu-latest
+    env:
+      BOARD: STM32F103RC_btt_512K
+
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+
+      - name: Compile Marlin firmware
+        run: |
+          docker run \
+            -u root:root \
+            -e BOARD \
+            -e UPDATE_FORCE=true \
+            -v $(pwd)/Firmware/Builds:/home/platformio/build \
+            -v $(pwd)/Firmware/Configuration:/home/platformio/CustomConfiguration \
+            frealmyr/docker-marlin-build:latest
+
+      - uses: mikeal/publish-to-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
