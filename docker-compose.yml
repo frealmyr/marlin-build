@@ -3,7 +3,7 @@ version: "3.5"
 services:
   build:
     container_name: marlin-build
-    image: frealmyr/docker-marlin-build:latest
+    image: frealmyr/marlin-build:latest
     user: 1000:1000
     stdin_open: true
     tty: true

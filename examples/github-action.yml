@@ -28,7 +28,7 @@ jobs:
             -e UPDATE_FORCE=true \
             -v $(pwd)/Firmware/Builds:/home/platformio/build \
             -v $(pwd)/Firmware/Configuration:/home/platformio/CustomConfiguration \
-            frealmyr/docker-marlin-build:latest
+            frealmyr/marlin-build:latest
 
       - uses: mikeal/publish-to-github-action@master
         env:
