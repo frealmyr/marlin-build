@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Ask if wish to update MarlinFirmware to the latest release
-if [[ -z $UPDATE_SKIP ]] && [[ -z $USE_BRANCH ]]; then
+if [[ -z $UPDATE_SKIP ]] && [[ -z $USE_TAG ]] && [[ -z $USE_BRANCH ]]; then
   if [[ -z $UPDATE_FORCE ]]; then
     printf "\nYou are currently using MarlinFirmware release:\e[01;33m $(cd Marlin/ && git tag --points-at HEAD)\e[0m\n"
     read -r -p "Do you want to update MarlinFirmware to latest release? [y/N] " response
@@ -21,7 +21,14 @@ if [[ -z $UPDATE_SKIP ]] && [[ -z $USE_BRANCH ]]; then
       esac
 fi
 
-if [[ $USE_BRANCH ]]; then
+# Override MarlinFirmware version using branch or tag
+if [[ $USE_TAG ]]; then
+  cd Marlin/
+  git fetch origin
+  git checkout $USE_TAG
+  printf "\nYou are now using git tag:\e[01;33m $(git tag --points-at HEAD)\e[0m\n\n"
+  cd ..
+elif [[ $USE_BRANCH ]]; then
   cd Marlin/
   git fetch origin
   git checkout $USE_BRANCH

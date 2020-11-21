@@ -27,7 +27,7 @@ docker run --rm -it \
   -e BOARD \
   -v $MARLIN_FIRMWARE:/home/platformio/build \
   -v $MARLIN_CONFIGURATION:/home/platformio/CustomConfiguration \
-  frealmyr/docker-marlin-build:latest
+  frealmyr/marlin-build:latest
 ```
 
 ### Github Action
@@ -45,6 +45,7 @@ A live example of this setup is available here https://github.com/frealmyr/3d-la
 | BOARD | Platformio default_envs | yes |
 | UPDATE_SKIP | Skip firmware update prompt | no |
 | UPDATE_FORCE | Update to latest Marlin release | no |
+| USE_TAG | Compile using a specific release tag | no |
 | USE_BRANCH | Compile using a branch instead of latest tag | no |
 
 ## Docker volume mounts
