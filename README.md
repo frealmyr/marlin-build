@@ -44,13 +44,15 @@ A live example of this setup is available here: https://github.com/frealmyr/3d-l
 
 ## Docker environment variables
 
-| Variable | Description| Reqired |
-| :--- | :- | :-: |
-| BOARD | Platformio default_envs | yes |
-| UPDATE_SKIP | Skip firmware update prompt | no |
-| UPDATE_FORCE | Update to latest Marlin release | no |
-| USE_TAG | Compile using a specific release tag | no |
-| USE_BRANCH | Compile using a branch instead of latest tag | no |
+| Variable | Description| Required | Example value |
+| :--- | :- | :-: | :--: |
+| BOARD | Platformio default_envs | yes | `STM32F103RET6_creality` |
+| UPDATE_SKIP | Skip firmware update prompt | no | `true` |
+| UPDATE_FORCE | Update to latest Marlin release | no | `true` |
+| USE_TAG | Compile using a specific release tag | no | `2.0.7.1` |
+| USE_BRANCH | Compile using a branch instead of latest tag | no | `bugfix-2.0.x` |
+
+>Different branches and tag versions might use a different CONFIGURATION_H_VERSION, firmware build will fail in such a case. Requiring you to update your configuration files with upstream changes.
 
 ## Docker volume mounts
 
