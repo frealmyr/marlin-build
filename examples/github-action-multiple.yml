@@ -1,4 +1,5 @@
 # This a Github Action for automatically building Marlin Firmware when you push a commit to master.
+# Example mentioned in issue #11 for multiple configurations, simply create sub-folders with name of choice.
 
 name: Build Marlin Firmware
 
@@ -7,7 +8,7 @@ on:
     branches:
       - master
     paths:
-      - 'Firmware/Configuration/**.h'
+      - 'Firmware/Configuration/Example1/**.h'
 
 jobs:
   build_and_push:
@@ -25,8 +26,8 @@ jobs:
           docker run \
             -u root:root \
             -e BOARD \
-            -v $(pwd)/Firmware/Builds:/home/platformio/build \
-            -v $(pwd)/Firmware/Configuration:/home/platformio/CustomConfiguration \
+            -v $(pwd)/Firmware/Builds/Example1:/home/platformio/build \
+            -v $(pwd)/Firmware/Configuration/Example1:/home/platformio/CustomConfiguration \
             frealmyr/marlin-build:latest
 
       - name: Push firmware
