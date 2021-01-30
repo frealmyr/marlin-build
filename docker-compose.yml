@@ -9,8 +9,8 @@ services:
     tty: true
     environment:
       - BOARD
-      # - UPDATE_SKIP=true # Skip update prompt
-      # - UPDATE_FORCE=true # Update MarlinFirmware silently
+      # - USE_LATEST=true # Use latest git tag
+      # - USE_REPO=https://github.com/frealmyr/Marlin # USe a different git repo
       # - USE_TAG=2.0.7.1 # Use a specific release tag
       # - USE_BRANCH=bugfix-2.0.x # Use a branch instead of latest tag
     volumes:

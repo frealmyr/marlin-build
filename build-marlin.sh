@@ -1,38 +1,38 @@
 #!/bin/bash
 
-# Ask if wish to update MarlinFirmware to the latest release
-if [[ -z $UPDATE_SKIP ]] && [[ -z $USE_TAG ]] && [[ -z $USE_BRANCH ]]; then
-  if [[ -z $UPDATE_FORCE ]]; then
-    printf "\nYou are currently using MarlinFirmware release:\e[01;33m $(cd Marlin/ && git tag --points-at HEAD)\e[0m\n"
-    read -r -p "Do you want to update MarlinFirmware to latest release? [y/N] " response
-  else
-    response=y
-  fi
-      case "$response" in
-          [yY][eE][sS]|[yY])
-              cd Marlin/
-              git fetch origin
-              git checkout $(git describe --tags `git rev-list --tags --max-count=1`)
-              echo "" && cd ..
-              ;;
-          *)
-              echo ""
-              ;;
-      esac
+# Override git repository
+if [ "$USE_REPO" ]; then
+  printf "\n\e[01;36mOverride Detected\e[0m\n"
+  printf "Switching git repository to:\e[01;33m $USE_REPO\e[0m\n\n"
+  rm -rf Marlin/
+  git clone $USE_REPO
 fi
 
 # Override MarlinFirmware version using branch or tag
-if [[ $USE_TAG ]]; then
+if [[ -v $USE_LATEST ]] && [[ -z $USE_TAG ]] && [[ -z $USE_BRANCH ]]; then
+  printf "\n\e[01;36mOverride Detected\e[0m\n"
+  cd Marlin/
+  git fetch origin
+  git checkout $(git describe --tags `git rev-list --tags --max-count=1`)
+  printf "\nYou are now using git tag:\e[01;33m $(git tag --points-at HEAD)\e[0m\n\n"
+  cd ..
+elif [[ $USE_TAG ]]; then
+  printf "\n\e[01;36mOverride Detected\e[0m\n"
   cd Marlin/
   git fetch origin
   git checkout $USE_TAG
   printf "\nYou are now using git tag:\e[01;33m $(git tag --points-at HEAD)\e[0m\n\n"
   cd ..
 elif [[ $USE_BRANCH ]]; then
+  printf "\n\e[01;36mOverride Detected\e[0m\n"
   cd Marlin/
   git fetch origin
   git checkout $USE_BRANCH
   printf "\nYou are now using the latest commit in branch:\e[01;33m $(git branch | sed -n '/\* /s///p')\e[0m\n\n"
+  cd ..
+else
+  cd Marlin/
+  printf "\nYou are using git tag from docker image:\e[01;33m $(git tag --points-at HEAD)\e[0m\n\n"
   cd ..
 fi
 
