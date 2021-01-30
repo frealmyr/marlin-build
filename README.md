@@ -47,8 +47,8 @@ A live example of this setup is available here: https://github.com/frealmyr/3d-l
 | Variable | Description| Required | Example value |
 | :--- | :- | :-: | :--: |
 | BOARD | Platformio default_envs | yes | `STM32F103RET6_creality` |
-| UPDATE_SKIP | Skip firmware update prompt | no | `true` |
-| UPDATE_FORCE | Update to latest Marlin release | no | `true` |
+| USE_REPO | Compile using a different git repository | no | `https://github.com/frealmyr/Marlin` |
+| USE_LATEST | Update to latest Marlin release tag | no | `true` |
 | USE_TAG | Compile using a specific release tag | no | `2.0.7.1` |
 | USE_BRANCH | Compile using a branch instead of latest tag | no | `bugfix-2.0.x` |
 
