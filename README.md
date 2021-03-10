@@ -44,13 +44,14 @@ A live example of this setup is available here: https://github.com/frealmyr/3d-l
 
 ## Docker environment variables
 
-| Variable | Description| Required | Example value |
-| :--- | :- | :-: | :--: |
-| BOARD | Platformio default_envs | yes | `STM32F103RET6_creality` |
-| USE_REPO | Compile using a different git repository | no | `https://github.com/frealmyr/Marlin` |
-| USE_LATEST | Update to latest Marlin release tag | no | `true` |
-| USE_TAG | Compile using a specific release tag | no | `2.0.7.1` |
-| USE_BRANCH | Compile using a branch instead of latest tag | no | `bugfix-2.0.x` |
+| Variable | Description| Required | Default | Example |
+| :--- | :- | :-: | :-: | :--: |
+| BOARD | Platformio default_envs | yes | `""` | `STM32F103RET6_creality` |
+| USE_REPO | Compile using a different git repository | no | `""` | `https://github.com/frealmyr/Marlin` |
+| USE_LATEST | Update to latest Marlin release tag | no | `""` | `true` |
+| USE_TAG | Compile using a specific release tag | no | `""` | `2.0.7.1` |
+| USE_BRANCH | Compile using a branch instead of latest tag | no | `""` | `bugfix-2.0.x` |
+| FW_EXTENSION | Override firmware file extension type | no | `bin` | `hex` |
 
 >Different branches and tag versions might use a different CONFIGURATION_H_VERSION, firmware build will fail in such a case. Requiring you to update your configuration files with upstream changes.
 
