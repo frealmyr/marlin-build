@@ -13,7 +13,8 @@ services:
       # - USE_REPO=https://github.com/frealmyr/Marlin # USe a different git repo
       # - USE_TAG=2.0.7.1 # Use a specific release tag
       # - USE_BRANCH=bugfix-2.0.x # Use a branch instead of latest tag
+      # - FW_EXTENSION=hex
     volumes:
       - $MARLIN_FIRMWARE:/home/platformio/build
       - $MARLIN_CONFIGURATION:/home/platformio/CustomConfiguration
-      # - ./build-marlin.sh:/home/platformio/build-marlin.sh # Use build script in repo instead of image
+      - ./build-marlin.sh:/home/platformio/build-marlin.sh # Use build script in repo instead of image
