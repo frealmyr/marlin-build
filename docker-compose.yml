@@ -17,4 +17,4 @@ services:
     volumes:
       - $MARLIN_FIRMWARE:/home/platformio/build
       - $MARLIN_CONFIGURATION:/home/platformio/CustomConfiguration
-      - ./build-marlin.sh:/home/platformio/build-marlin.sh # Use build script in repo instead of image
+      # - ./build-marlin.sh:/home/platformio/build-marlin.sh # Use build script in repo instead of image
