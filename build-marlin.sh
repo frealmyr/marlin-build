@@ -97,7 +97,7 @@ if [[ ${success} -eq 0 ]]; then
       exit 1
     fi
   else
-      printf "\e[0mMD5 Checksum Validation: \e[1;31mFirmware file with $FW_EXTENSION file extension not found\n"
+      printf "\e[0mMD5 Checksum Validation: \e[1;31mFirmware file with $FW_EXTENSION file extension not found!\n"
       printf "\n\e[1;31mBuild failed! \e[0mCheck the output above for errors\n"
       exit 1
   fi
